@@ -28,3 +28,11 @@ if movie_title not in movies['title'].str.lower().values:
     exit()
 
 movie_index = movies[movies['title'].str.lower() == movie_title].index[0]
+
+cosine_similarities = cosine_similarity(tfidf_matrix[movie_index], tfidf_matrix).flatten()
+
+similar_indices = cosine_similarities.argsort()[::-1][1:6]
+
+print("\n🎯 Recommended movies:")
+for idx in similar_indices:
+    print(f"🔹 {movies.iloc[idx]['title']}")
