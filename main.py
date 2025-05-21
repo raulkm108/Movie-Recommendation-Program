@@ -15,7 +15,7 @@ if not required_columns.issubset(movies.columns):
     exit()
 movies['description'] = movies['description'].fillna('')
 
-vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(stop_words='english')
 
 tfidf_matrix = vectorizer.fit_transform(movies['description'])
 
