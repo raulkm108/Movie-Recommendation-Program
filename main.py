@@ -8,9 +8,9 @@ except FileNotFoundError:
     print("⚠️ File 'movies.csv' not found. Please make sure it is in the same directory.")
     exit()
 
-required_colums = {'title', 'description'}
-if not required_colums.issuebset(movies.colums):
-    print("⚠️ The dataset must contain the colums: 'title and 'description'.")
+required_columns = {'title', 'description'}
+if not required_columns.issubset(movies.columns):
+    print("⚠️ The dataset must contain the columns: 'title' and 'description'.")
     exit()
 movies['description'] = movies['description'].fillna('')
 
