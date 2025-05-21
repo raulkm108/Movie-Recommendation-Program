@@ -13,3 +13,9 @@ if not required_colums.issuebset(movies.colums):
     print("⚠️ The dataset must contain the colums: 'title and 'description'.")
     exit()
 movies['description'] = movies['description'].fillna('')
+
+vectorizer = TfidfVectorizer(stop_words='english')
+
+tfidf_matrix = vectorizer.fit_transform(movies['description'])
+
+print("✅ TF-IDF matrix created. Shape:", tfidf_matrix.shape)
