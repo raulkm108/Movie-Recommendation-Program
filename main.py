@@ -2,30 +2,19 @@ import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import difflib
+import requests
 
 def main():
-    movies = load_data("movies.csv")
-    vectorizer = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = vectorizer.fit_transform(movies['description'])
+    API_KEY = '8e5204ead69396cef3240e5175bb098e'
+    input_title = input("🎬 Type the movie title: ").strip()
 
-    input_title = input("\n Enter a movie title: ").strip()
-    titles = movies['title'].tolist()
-
-    if input_title.lower() not in [t.lower() for t in titles]:
-        suggestion = suggest_similar_title(input_title, titles)
-        if suggestion:
-            input_title = suggestion
-        else:
-            print("❌ No match found or cancelled.")
-            return
-
-    movie_index = movies[movies['title'].str.lower() == input_title.lower()].index[0]
-    recommendation = get_recommendations(movie_index, tfidf_matrix, movies)
-
-    print(f"\n Recommended movies based on '{input_title}':")
-    for title, score in recommendation:
-        print(f" {title} (score: {score:.6f})")
+    recommendations = get_recommendations(input_title, API_KEY)
+    if recommendations:
+        print(f"\n🔎 Recomendations based on: '{input_title}':")
+        for title, score in recommendations:
+            print(f"🔹 {title} (similarity: {score:.6f})")
+    else:
+        print("⚠️ No recommendations found!")
 
 def load_data(path_csv):
     try:
