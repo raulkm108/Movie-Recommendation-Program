@@ -71,13 +71,13 @@ def get_recommendations(input_title, API_KEY, n=5):
         print ("❌ No movie with description avaiable")
         return []
 
-
-
-
-    cosine_similarities = cosine_similarity(tfidf_matrix[movie_index], tfidf_matrix).flatten()
+    vectorizer = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = vectorizer.fit_transform([input_description] + descriptions)
+    cosine_similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
     cosine_similarities = np.round(cosine_similarities, 6)
-    similar_index = cosine_similarities.argsort()[::-1][1:n + 1]
-    return [(movies.iloc[i]['title'], cosine_similarities[i]) for i in similar_index]
+    
+    top_indexes = cosine_similarities.argsort()[::-1][:n]
+    return [(titles[i], cosine_similarities[i]) for i in top_indexes]
 
 if __name__ == "__main__":
     main()
