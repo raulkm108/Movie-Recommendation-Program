@@ -34,6 +34,20 @@ def get_movie_description(movie_id, API_KEY):
         return response.json().get("overview", "")
     return ""
 
+def get_popular_movies(API_KEY, pages=10):
+    movies = []
+    for page in range (1, pages + 1):
+        url = f"https://api.themoviedb.org/3/movie/popular"
+        params = {"api_key": API_KEY, "page": page}
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            results = response.json().get("results", [])
+            movies.extend(results)
+    return movies
+
+
+
+
 
 def get_recommendations(movie_index, tfidf_matrix, movies, n=5):
     cosine_similarities = cosine_similarity(tfidf_matrix[movie_index], tfidf_matrix).flatten()
