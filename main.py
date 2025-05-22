@@ -35,19 +35,6 @@ def get_movie_description(movie_id, API_KEY):
         return response.json().get("overview", "")
     return ""
 
-def suggest_similar_title(input_title, title_list):
-    matches = difflib.get_close_matches(input_title, title_list, n=5, cutoff=0.5)
-    if matches:
-        print("\n Movie not found, Did you mean one of these?")
-        for i, match in enumerate(matches, 1):
-            print(f"{i}. {match}")
-        try:
-            choice = int(input("\nEnter the number of the correct movie (0 to cancel): "))
-            if 1 <= choice <= len(matches):
-                return matches[choice - 1]
-        except ValueError:
-            pass
-    return None
 
 def get_recommendations(movie_index, tfidf_matrix, movies, n=5):
     cosine_similarities = cosine_similarity(tfidf_matrix[movie_index], tfidf_matrix).flatten()
