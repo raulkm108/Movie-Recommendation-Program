@@ -18,7 +18,7 @@ def main():
 
 def search_tdmb_movie(title, API_KEY):
     url = "https://api.themoviedb.org/3/search/movie"
-    params = {"API_KEY": API_KEY, "query": title}
+    params = {"api_key": API_KEY, "query": title}
     response = requests.get(url, params=params)
     if response.status_code == 200:
         results = response.jason().get("results")
@@ -26,18 +26,13 @@ def search_tdmb_movie(title, API_KEY):
             return results[0]["id"]
     return None     
     
-
-
-    try:
-        movies = pd.read_csv(path_csv)
-    except FileNotFoundError:
-        print(f"⚠️ File '{path_csv}' not found.")
-        exit()
-    if not {'title', 'description'}.issubset(movies.columns):
-        print(f"⚠️ The dataset must contain 'title' and 'description'.")
-        exit()
-    movies['description'] = movies['description'].fillna('')
-    return movies
+def get_movie_description(movie_id, API_KEY):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+    params = {"api_key": API_KEY}
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        return response.json().get("overview", "")
+    return ""
 
 def suggest_similar_title(input_title, title_list):
     matches = difflib.get_close_matches(input_title, title_list, n=5, cutoff=0.5)
