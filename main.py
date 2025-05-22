@@ -16,7 +16,18 @@ def main():
     else:
         print("⚠️ No recommendations found!")
 
-def load_data(path_csv):
+def search_tdmb_movie(title, API_KEY):
+    url = "https://api.themoviedb.org/3/search/movie"
+    params = {"API_KEY": API_KEY, "query": title}
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        results = response.jason().get("results")
+        if results:
+            return results[0]["id"]
+    return None     
+    
+
+
     try:
         movies = pd.read_csv(path_csv)
     except FileNotFoundError:
