@@ -45,11 +45,26 @@ def get_popular_movies(API_KEY, pages=10):
             movies.extend(results)
     return movies
 
+def get_recommendations(input_title, API_KEY, n=5):
+    movie_id = search_tdmb_movie(input_title, API_KEY)
+    if not movie_id:
+        print("❌ Movie not Found!")
+        return []
+    
+    input_description = get_movie_description(movie_id, API_KEY)
+    if not input_description:
+        print("❌ Movie description not Found!")
+        return []
+    
+    candidate_movies = get_popular_movies(API_KEY)
+    description = []
+    titles = []
+    
 
 
 
 
-def get_recommendations(movie_index, tfidf_matrix, movies, n=5):
+
     cosine_similarities = cosine_similarity(tfidf_matrix[movie_index], tfidf_matrix).flatten()
     cosine_similarities = np.round(cosine_similarities, 6)
     similar_index = cosine_similarities.argsort()[::-1][1:n + 1]
