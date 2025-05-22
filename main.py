@@ -57,10 +57,19 @@ def get_recommendations(input_title, API_KEY, n=5):
         return []
     
     candidate_movies = get_popular_movies(API_KEY)
-    description = []
+    descriptions = []
     titles = []
-    
 
+    for movie in candidate_movies:
+        overview = movie.get("overview")
+        title = movie.get("title")
+        if overview and title:
+            descriptions.append(overview)
+            titles.append(title)
+    
+    if not descriptions:
+        print ("❌ No movie with description avaiable")
+        return []
 
 
 
