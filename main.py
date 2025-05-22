@@ -3,7 +3,6 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
-import difflib
 
 def main():
     API_KEY = '8e5204ead69396cef3240e5175bb098e'
