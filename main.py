@@ -47,8 +47,10 @@ def get_popular_movies(API_KEY, pages=10):
             movies.extend(results)
     return movies
 
+stemmer = PorterStemmer()
+
 def stemmed_tokenizer(text):
-    
+
 def get_recommendations(input_title, API_KEY, n=5):
     movie_id = search_tdmb_movie(input_title, API_KEY)
     if not movie_id:
