@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import nltk
+from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
