@@ -80,7 +80,7 @@ def get_recommendations(input_title, API_KEY, n=5):
         print ("❌ No movie with description avaiable")
         return []
 
-    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_df=0.85, min_df=3)
+    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_df=0.85, min_df=3, tokenizer=stemmed_tokenizer)
     tfidf_matrix = vectorizer.fit_transform([input_description] + descriptions)
     cosine_similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
     cosine_similarities = np.round(cosine_similarities, 6)
