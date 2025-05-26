@@ -1,3 +1,3 @@
-import nltk
-nltk.download('punkt') # Necessário para tokenização
+import downloadnltk
+downloadnltk.download('punkt') # Necessário para tokenização
 # nltk.download('wordnet') # Se fosse usar WordNetLemmatizer
