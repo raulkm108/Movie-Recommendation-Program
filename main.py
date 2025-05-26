@@ -50,6 +50,9 @@ def get_popular_movies(API_KEY, pages=10):
 stemmer = PorterStemmer()
 
 def stemmed_tokenizer(text):
+    text = text.lower()
+    tokens = nltk.word_tokenize(text)
+    return [stemmer.stem(item) for item in tokens]
 
 def get_recommendations(input_title, API_KEY, n=5):
     movie_id = search_tdmb_movie(input_title, API_KEY)
