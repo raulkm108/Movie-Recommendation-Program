@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import nltk
-from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -48,13 +47,6 @@ def get_popular_movies(API_KEY, pages=10):
             movies.extend(results)
     return movies
 
-stemmer = PorterStemmer()
-stemmed_stopwords = [stemmer.stem(word) for word in ENGLISH_STOP_WORDS]
-
-def stemmed_tokenizer(text):
-    text = text.lower()
-    tokens = nltk.word_tokenize(text)
-    return [stemmer.stem(item) for item in tokens]
 
 def get_recommendations(input_title, API_KEY, n=5):
     movie_id = search_tdmb_movie(input_title, API_KEY)
@@ -82,7 +74,7 @@ def get_recommendations(input_title, API_KEY, n=5):
         print ("❌ No movie with description avaiable")
         return []
 
-    vectorizer = TfidfVectorizer(stop_words=stemmed_stopwords, ngram_range=(1, 2), max_df=0.85, min_df=3, tokenizer=stemmed_tokenizer)
+    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_df=0.85, min_df=3)
     tfidf_matrix = vectorizer.fit_transform([input_description] + descriptions)
     cosine_similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
     cosine_similarities = np.round(cosine_similarities, 6)
