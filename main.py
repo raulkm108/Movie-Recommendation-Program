@@ -21,7 +21,7 @@ def search_tdmb_movie(title, API_KEY):
     params = {"api_key": API_KEY, "query": title}
     response = requests.get(url, params=params)
     if response.status_code == 200:
-        results = response.jason().get("results")
+        results = response.json().get("results")
         if results:
             return results[0]["id"]
     return None     
