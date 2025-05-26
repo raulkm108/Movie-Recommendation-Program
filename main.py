@@ -49,6 +49,7 @@ def get_popular_movies(API_KEY, pages=10):
     return movies
 
 stemmer = PorterStemmer()
+stemmed_stopwords = [stemmer.stem(word) for word in ENGLISH_STOP_WORDS]
 
 def stemmed_tokenizer(text):
     text = text.lower()
